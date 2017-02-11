@@ -14,14 +14,20 @@ if ($conn->connect_error) {
 $sql = "SELECT nome 
     FROM artisti
     where nazionalita='spagnola'";
-$result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
+
+function showQuery($query)
+{
+	$result = $conn->query($query);
+
+	if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
 			echo print_r($row);
-    }
-} else {
-    echo "0 results";
+		}
+	} else {
+		echo "0 results";
+	}
 }
+
 $conn->close();
 ?>
