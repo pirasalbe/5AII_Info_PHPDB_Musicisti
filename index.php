@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
-$username = "username";
-$password = "password";
-$dbname = "myDB";
+$username = "root";
+$password = "";
+$dbname = "artisti";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -17,7 +17,9 @@ $sql = "SELECT nome
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-        echo $result;
+        while($row = $result->fetch_assoc()) {
+			echo print_r($row);
+    }
 } else {
     echo "0 results";
 }
