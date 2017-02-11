@@ -1,0 +1,42 @@
+#artisti
+
+insert into artisti(nome,genere,nazionalita)
+values('mika','pop','inglese');
+
+insert into artisti(nome,genere,nazionalita)
+values('nicky minaj','pop','inglese');
+
+insert into artisti(nome,genere,nazionalita)
+values('mina','pop','italiana');
+
+insert into artisti(nome,genere,nazionalita)
+values('eminem','rap','inglese');
+
+insert into artisti(nome,genere,nazionalita)
+values('enrique iglesias','pop','spagnola');
+
+insert into artisti(nome,genere,nazionalita)
+values('alvaro soleil','pop','spagnola');
+
+#registrazioni
+
+insert into registrazioni(titolo,data,numerobrani,duratatotale)
+values('the dark side of the moon','2017-02-07','3','50');
+
+insert into registrazioni(titolo,data,numerobrani,duratatotale)
+values('recovery','2017-02-07','3','50');
+
+#brani
+
+insert into brani(titolo,durata,posizione,idartista,idregistrazione)
+values('io','5','1','5','1');
+
+insert into brani(titolo,durata,posizione,idartista,idregistrazione)
+values('sono','5','2','5','1');
+
+insert into brani(titolo,durata,posizione,idartista,idregistrazione)
+values('me','5','3','5','1');
+
+insert into brani(titolo,durata,posizione,idartista,idregistrazione)
+values('rap god','5','1','4','2');
+
