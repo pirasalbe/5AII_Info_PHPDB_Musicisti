@@ -1,5 +1,5 @@
 <?php
-	$risultato="";
+	$risultato= array();
 	$sql="";
 	$servername = "localhost";
 	$username = "root";
@@ -15,47 +15,72 @@
 
 	if(isset($_POST['nazionalita']))
 	{
+		$value = $_POST['naz'];
 		$sql = "SELECT nome 
 		FROM artisti
-		where nazionalita='spagnola'";
+		where nazionalita='" . $value . "'";
+	
+		$risultatoArray = showQuery($sql, $conn);
+		
+		foreach($risultatoArray as $value)
+			array_push($risultato, $value["nome"]);
 	}
 	
 	if(isset($_POST['artista']))
 	{
+		$value = $_POST['art'];
 		$sql = "SELECT titolo, durata 
 		FROM brani b inner join artisti a on b.idartista=a.id
-		where a.nome='mina'";
+		where a.nome=" . $value . "";
+	
+		$risultatoArray = showQuery($sql, $conn);
+		
+		foreach($risultatoArray as $value)
+			array_push($risultato, "Titolo: " . $value["titolo"] . " Durata: " . $value["durata"]);
 	}
 	
 	if(isset($_POST['album']))
 	{
+		$value = $_POST['alb'];
 		$sql = "SELECT b.titolo, b.durata, b.posizione 
 		FROM brani b inner join registrazioni r on b.idregistrazione=r.id
-		where r.titolo='the dark side of the'";
+		where r.titolo='" . $value . "'";
+	
+		$risultatoArray = showQuery($sql, $conn);
+		
+		foreach($risultatoArray as $value)
+			array_push($risultato, "Titolo: " . $value["titolo"] . " Durata: " . $value["durata"] . " Posizione: " . $value["posizione"]);
 	}
 	
 	if(isset($_POST['albumartista']))
 	{
-		$sql = "SELECT sum(durata)
+		$value = $_POST['albart'];
+		$sql = "SELECT sum(durata) as somma
 		FROM (brani b inner join registrazioni r on b.idregistrazione=r.id) inner join artisti a on a.id=b.idartista
-		where a.nome='eminem'";
-	}
+		where a.nome='" . $value . "'";
 	
-	$risultato = showQuery($sql, $conn);
+		$risultatoArray = showQuery($sql, $conn);
+		
+		foreach($risultatoArray as $value)
+			array_push($risultato, "Durata Totale: " . $value["somma"]);
+	}
 	
 	function showQuery($query, $conn)
 	{
 		if($query=="") return;
+		$risultato = array();
 		
 		$result = $conn->query($query);
 
 		if ($result->num_rows > 0) {
 			while($row = $result->fetch_assoc()) {
-				return $row;
+				array_push($risultato, $row);
 			}
 		} else {
 			return "0 results";
 		}
+		
+		return $risultato;
 	}
 
 $conn->close();
@@ -144,7 +169,8 @@ $conn->close();
 									<?php 
 									
 										if($risultato!="")
-											echo "<div class='alert alert-success'>" . $risultato . "</div>";
+											foreach($risultato as $value)
+												echo "<div class='alert alert-success'>" . $value . "</div><br>";
 									
 									?>
 							</div>
