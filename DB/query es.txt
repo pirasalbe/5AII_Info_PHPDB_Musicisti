@@ -1,0 +1,33 @@
+-Restituire il nome degli strumenti suonati esclusivamente da musicisti di sesso maschile;
+
+select a.nomestr
+from musicisti m inner join abilita a on a.codmus=m.codmus
+where sesso='M';
+
+-Per ogni musicista che suoni strumenti della categoria ‘Ottoni’ restituire il nome, il cognome, la data di nascita e gli strumenti della categoria 'Ottoni' da lui suonati 
+
+select m.nome, m.cognome, m.datanascita, a.nomestr
+from (musicisti m inner join abilita a on a.codmus=m.codmus)
+inner join strumenti s on s.nomestr=a.nomestr
+where categoria='Ottoni';
+
+-Per ogni musicista che suoni strumenti della categoria ‘Ottoni’ restituire il nome, il cognome, la data di nascita e tutti gli strumenti da lui suonati (fornire una soluzione senza utilizzare query annidate, ed una soluzione utilizzando query annidate)
+
+select m.nome, m.cognome, m.datanascita, a.nomestr
+from (musicisti m inner join abilita a on a.codmus=m.codmus)
+where nomestr in (select nomestr
+from strumenti
+where categoria='Ottoni');
+
+-Restituire nome, cognome e data di nascita dei musicisti che suonano almeno 5 strumenti (fornire una soluzione che fa uso di operatori di raggruppamento, ed una soluzione che fa uso di una vista);
+
+
+
+-Restituire il nome degli strumenti suonati da esattamente due musicisti (fornire una soluzione che fa uso di 
+operatori di raggruppamento, una che fa uso di una vista, ed una che usa una query annidata);
+
+-Restituire il nome ed il cognome del musicista più vecchio (o dei musicisti più vecchi, se ci sono musicisti nati nello stesso giorno) -- (fornire una soluzione che fa uso di query annidate, ed una che non utilizza l'annidamento ma si avvale dell'uso di una vista);
+
+-Restituire il nome ed il cognome del musicista più vecchio (o dei musicisti più vecchi, se ci sono musicisti nati nello stesso giorno)  fra quelli che suonano almeno uno strumento, e gli strumenti da lui (da loro) suonati -- (fornire una soluzione che fa uso di query annidate, ed una che non utilizza l'annidamento ma si avvale dell'uso di una vista);
+
+-Restituire la categoria di strumenti più popolare, cioè la categoria per la quale c'è il numero massimo di musicisti che suonano strumenti di quella cotegoria (si noti che la categoria più popolare non è necessariamente unica).

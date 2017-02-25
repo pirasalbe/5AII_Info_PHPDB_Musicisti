@@ -1,0 +1,143 @@
+#insert
+
+#strumenti
+('Chitarra','A Corde');
+('Pianoforte','A Corde');
+('Arpa','A Corde');
+('Sax Tenore','Ottoni');
+('Tromba','Ottoni');
+('Batteria','Ritmica');
+('Basso','A Corde');
+('Percussioni','Ritmica');
+('Violino','A Corde');
+
+insert into strumenti(nomestr,categoria)
+values('Chitarra','A Corde');
+
+insert into strumenti(nomestr,categoria)
+values('Pianoforte','A Corde');
+
+insert into strumenti(nomestr,categoria)
+values('Arpa','A Corde');
+
+insert into strumenti(nomestr,categoria)
+values('Sax Tenore','Ottoni');
+
+insert into strumenti(nomestr,categoria)
+values('Tromba','Ottoni');
+
+insert into strumenti(nomestr,categoria)
+values('Batteria','Ritmica');
+
+insert into strumenti(nomestr,categoria)
+values('Basso','A Corde');
+
+insert into strumenti(nomestr,categoria)
+values('Percussioni','Ritmica');
+
+insert into strumenti(nomestr,categoria)
+values('Violino','A Corde');
+
+#musicisti
+('CM12340','Angela','Hewitt','1955-03-30','F');
+('CM12341','Cecilia','Chaily','1971-12-15','F');
+('CM12342','Billie','Holiday','1915-04-07','F');
+('CM12343','Chet','Baker','1929-12-23','M');
+('CM12344','Pat','Metheny','1954-08-12','M');
+('CM12345','Keith','Richards','1943-12-18','M');
+('CM12346','Mike','Oldfield','1949-11-20','M');
+('CM12347','Janis','Joplin','1943-01-19','F');
+('CM12348','John','Coltrane','1926-08-20','M');
+('CM12349','Miles','Davis','1926-05-26','M');
+
+
+insert into musicisti(codmus,nome,cognome,datanascita,sesso)
+values ('CM12340','Angela','Hewitt','1955-03-30','F');
+
+insert into musicisti(codmus,nome,cognome,datanascita,sesso)
+values ('CM12341','Cecilia','Chaily','1971-12-15','F');
+
+insert into musicisti(codmus,nome,cognome,datanascita,sesso)
+values ('CM12342','Billie','Holiday','1915-04-07','F');
+
+insert into musicisti(codmus,nome,cognome,datanascita,sesso)
+values ('CM12343','Chet','Baker','1929-12-23','M');
+
+insert into musicisti(codmus,nome,cognome,datanascita,sesso)
+values ('CM12344','Pat','Metheny','1954-08-12','M');
+
+insert into musicisti(codmus,nome,cognome,datanascita,sesso)
+values ('CM12345','Keith','Richards','1943-12-18','M');
+
+insert into musicisti(codmus,nome,cognome,datanascita,sesso)
+values ('CM12346','Mike','Oldfield','1949-11-20','M');
+
+insert into musicisti(codmus,nome,cognome,datanascita,sesso)
+values ('CM12347','Janis','Joplin','1943-01-19','F');
+
+insert into musicisti(codmus,nome,cognome,datanascita,sesso)
+values ('CM12348','John','Coltrane','1926-08-20','M');
+
+insert into musicisti(codmus,nome,cognome,datanascita,sesso)
+values ('CM12349','Miles','Davis','1926-05-26','M');
+
+#abilita
+values('CM12340','Pianoforte');
+values('CM12341','Arpa');
+values('CM12343','Tromba');
+values('CM12344','Chitarra');
+values('CM12345','Chitarra');
+values('CM12346','Pianoforte');
+values('CM12346','Chitarra');
+values('CM12346','Batteria');
+values('CM12346','Basso');
+values('CM12346','Percussioni');
+values('CM12346','Tromba');
+values('CM12347','Chitarra');
+values('CM12348','Sax Tenore');
+values('CM12349','Tromba');
+
+
+insert into abilita(codmus,nomestr)
+values('CM12340','Pianoforte');
+
+insert into abilita(codmus,nomestr)
+values('CM12341','Arpa');
+
+insert into abilita(codmus,nomestr)
+values('CM12343','Tromba');
+
+insert into abilita(codmus,nomestr)
+values('CM12344','Chitarra');
+
+insert into abilita(codmus,nomestr)
+values('CM12345','Chitarra');
+
+insert into abilita(codmus,nomestr)
+values('CM12346','Pianoforte');
+
+insert into abilita(codmus,nomestr)
+values('CM12346','Chitarra');
+
+insert into abilita(codmus,nomestr)
+values('CM12346','Batteria');
+
+insert into abilita(codmus,nomestr)
+values('CM12346','Basso');
+
+insert into abilita(codmus,nomestr)
+values('CM12346','Percussioni');
+
+insert into abilita(codmus,nomestr)
+values('CM12346','Tromba');
+
+insert into abilita(codmus,nomestr)
+values('CM12347','Chitarra');
+
+insert into abilita(codmus,nomestr)
+values('CM12348','Sax Tenore');
+
+insert into abilita(codmus,nomestr)
+values('CM12349','Tromba');
+
+
