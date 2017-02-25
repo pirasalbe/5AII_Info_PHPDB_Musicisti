@@ -2,32 +2,84 @@
 
 select a.nomestr
 from musicisti m inner join abilita a on a.codmus=m.codmus
-where sesso='M';
+where m.sesso='M' and a.nomestr not in (select a.nomestr
+from musicisti m inner join abilita a on a.codmus=m.codmus
+where sesso='S');
+
+
 
 -Per ogni musicista che suoni strumenti della categoria ‘Ottoni’ restituire il nome, il cognome, la data di nascita e gli strumenti della categoria 'Ottoni' da lui suonati 
 
-select m.nome, m.cognome, m.datanascita, a.nomestr
-from (musicisti m inner join abilita a on a.codmus=m.codmus)
-inner join strumenti s on s.nomestr=a.nomestr
-where categoria='Ottoni';
+select m.nome, m.cognome, m.datanascita, k.nomestr
+from ((musicisti m inner join abilita a on a.codmus=m.codmus)
+inner join strumenti s on s.nomestr=a.nomestr) inner join abilita k on k.codmus=a.codmus
+where s.categoria='Ottoni' and k.codmus=a.codmus;
+
+
 
 -Per ogni musicista che suoni strumenti della categoria ‘Ottoni’ restituire il nome, il cognome, la data di nascita e tutti gli strumenti da lui suonati (fornire una soluzione senza utilizzare query annidate, ed una soluzione utilizzando query annidate)
 
 select m.nome, m.cognome, m.datanascita, a.nomestr
 from (musicisti m inner join abilita a on a.codmus=m.codmus)
-where nomestr in (select nomestr
-from strumenti
-where categoria='Ottoni');
+where m.nome in (select m.nome
+from (musicisti m inner join abilita a on a.codmus=m.codmus) inner join strumenti s on s.nomestr=a.nomestr
+where s.categoria='Ottoni');
+
+
 
 -Restituire nome, cognome e data di nascita dei musicisti che suonano almeno 5 strumenti (fornire una soluzione che fa uso di operatori di raggruppamento, ed una soluzione che fa uso di una vista);
+
+select nome, cognome, datanascita
+from musicisti m inner join abilita a on a.codmus=m.codmus
+group by nome, cognome, datanascita having count(*)>4;
 
 
 
 -Restituire il nome degli strumenti suonati da esattamente due musicisti (fornire una soluzione che fa uso di 
 operatori di raggruppamento, una che fa uso di una vista, ed una che usa una query annidata);
 
+select distinct(a.nomestr)
+from musicisti m inner join abilita a on a.codmus=m.codmus
+group by a.nomestr having count(*)=2;
+
+select distinct(a.nomestr)
+from abilita a 
+where nomestr in (select a.nomestr
+from musicisti m inner join abilita a on a.codmus=m.codmus
+group by a.nomestr having count(*)=2);
+
+
+
 -Restituire il nome ed il cognome del musicista più vecchio (o dei musicisti più vecchi, se ci sono musicisti nati nello stesso giorno) -- (fornire una soluzione che fa uso di query annidate, ed una che non utilizza l'annidamento ma si avvale dell'uso di una vista);
+
+select nome, cognome, datanascita
+from musicisti m
+where datanascita = (select min(datanascita)
+from musicisti m);
+
+
 
 -Restituire il nome ed il cognome del musicista più vecchio (o dei musicisti più vecchi, se ci sono musicisti nati nello stesso giorno)  fra quelli che suonano almeno uno strumento, e gli strumenti da lui (da loro) suonati -- (fornire una soluzione che fa uso di query annidate, ed una che non utilizza l'annidamento ma si avvale dell'uso di una vista);
 
+select nome, cognome, datanascita, a.nomestr
+from musicisti m inner join abilita a on a.codmus=m.codmus
+where datanascita = (select min(datanascita)
+from musicisti m inner join abilita a on a.codmus=m.codmus);
+
+
+
 -Restituire la categoria di strumenti più popolare, cioè la categoria per la quale c'è il numero massimo di musicisti che suonano strumenti di quella cotegoria (si noti che la categoria più popolare non è necessariamente unica).
+
+select nomestr 
+from abilita
+group by nomestr having count(*) >= all(select count(*)
+from abilita
+group by nomestr);
+
+
+
+
+
+
+
+
