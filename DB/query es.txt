@@ -4,7 +4,7 @@ select a.nomestr
 from musicisti m inner join abilita a on a.codmus=m.codmus
 where m.sesso='M' and a.nomestr not in (select a.nomestr
 from musicisti m inner join abilita a on a.codmus=m.codmus
-where sesso='S');
+where sesso='F');
 
 
 

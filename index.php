@@ -13,56 +13,67 @@
 		die("Connection failed: " . $conn->connect_error);
 } 
 
-	if(isset($_POST['nazionalita']))
+	if(isset($_POST['categoria']))
 	{
-		$value = $_POST['naz'];
-		$sql = "SELECT nome 
-		FROM artisti
-		where nazionalita='" . $value . "'";
+		$value = $_POST['cat'];
+		$sql = "select m.nome, m.cognome, m.datanascita, a.nomestr
+				from (musicisti m inner join abilita a on a.codmus=m.codmus)
+				where m.nome in (select m.nome
+				from (musicisti m inner join abilita a on a.codmus=m.codmus) 
+				inner join strumenti s on s.nomestr=a.nomestr
+				where s.categoria='" . $value . "')";
 	
 		$risultatoArray = showQuery($sql, $conn);
 		
 		foreach($risultatoArray as $value)
-			array_push($risultato, $value["nome"]);
+			array_push($risultato, "Nome: " . $value["nome"] . " Cognome: " . $value["cognome"] . " Strumenti: " . $value["nomestr"]);
 	}
 	
-	if(isset($_POST['artista']))
+	if(isset($_POST['strumenti']))
 	{
-		$value = $_POST['art'];
-		$sql = "SELECT titolo, durata 
-		FROM brani b inner join artisti a on b.idartista=a.id
-		where a.nome=" . $value . "";
+		$value = $_POST['str'];
+		$sql = "select nome, cognome, datanascita
+				from musicisti m inner join abilita a on a.codmus=m.codmus
+				group by nome, cognome, datanascita having count(*)>" . $value;
 	
 		$risultatoArray = showQuery($sql, $conn);
 		
 		foreach($risultatoArray as $value)
-			array_push($risultato, "Titolo: " . $value["titolo"] . " Durata: " . $value["durata"]);
+			array_push($risultato, "Nome: " . $value["nome"] . " Cognome: " . $value["cognome"]);
 	}
 	
-	if(isset($_POST['album']))
+	if(isset($_POST['musicisti']))
 	{
-		$value = $_POST['alb'];
-		$sql = "SELECT b.titolo, b.durata, b.posizione 
-		FROM brani b inner join registrazioni r on b.idregistrazione=r.id
-		where r.titolo='" . $value . "'";
-	
+		$value = $_POST['mus'];
+		$sql = "select distinct(a.nomestr)
+				from musicisti m inner join abilita a on a.codmus=m.codmus
+				group by a.nomestr having count(*)=" . $value;
+			
 		$risultatoArray = showQuery($sql, $conn);
 		
 		foreach($risultatoArray as $value)
-			array_push($risultato, "Titolo: " . $value["titolo"] . " Durata: " . $value["durata"] . " Posizione: " . $value["posizione"]);
+			array_push($risultato, "Strumenti: " . $value["nomestr"]);
 	}
 	
-	if(isset($_POST['albumartista']))
+	if(isset($_POST['sesso']))
 	{
-		$value = $_POST['albart'];
-		$sql = "SELECT sum(durata) as somma
-		FROM (brani b inner join registrazioni r on b.idregistrazione=r.id) inner join artisti a on a.id=b.idartista
-		where a.nome='" . $value . "'";
+		if(isset($_POST['mas']))
+			$sql = "select a.nomestr
+					from musicisti m inner join abilita a on a.codmus=m.codmus
+					where m.sesso='M' and a.nomestr not in (select a.nomestr
+					from musicisti m inner join abilita a on a.codmus=m.codmus
+					where sesso='F')";
+		else
+			$sql = "select a.nomestr
+					from musicisti m inner join abilita a on a.codmus=m.codmus
+					where m.sesso='F' and a.nomestr not in (select a.nomestr
+					from musicisti m inner join abilita a on a.codmus=m.codmus
+					where sesso='M')";
 	
 		$risultatoArray = showQuery($sql, $conn);
 		
 		foreach($risultatoArray as $value)
-			array_push($risultato, "Durata Totale: " . $value["somma"]);
+			array_push($risultato, "Strumenti: " . $value["nomestr"]);
 	}
 	
 	function showQuery($query, $conn)
@@ -102,18 +113,18 @@ $conn->close();
 				    <div class="container">
     					
     					<div class="row">
-    						<div class="jumbotron text-center"><h2>Query Artisti</h2></div>
+    						<div class="jumbotron text-center"><h2>Query Musicisti</h2></div>
     					</div>
 				
 						<div class="row">
 							<div class="col-sm-2">
-								<label for="login">Nazionalita:</label>
+								<label for="cat">Categoria:</label>
 							</div>
 							<div class="col-sm-4">
-									<input type="text" class="form-control" name="naz">
+									<input type="text" class="form-control" name="cat">
 							</div>
 							<div class="col-sm-2">
-									<input class="btn btn-default" align="center" type="submit" name="nazionalita" value="Query Nazionalita">
+									<input class="btn btn-default" align="center" type="submit" name="categoria" value="Query Categoria">
 							</div>
                         </div>	
 						
@@ -121,13 +132,13 @@ $conn->close();
 						
 						<div class="row">
 							<div class="col-sm-2">
-								<label for="login">Artista:</label>
+								<label for="str">Strumenti:</label>
 							</div>
 							<div class="col-sm-4">
-									<input type="text" class="form-control" name="art">
+									<input type="number" class="form-control" name="str">
 							</div>
 							<div class="col-sm-2">
-									<input class="btn btn-default" align="center" type="submit" name="artista" value="Query Artista">
+									<input class="btn btn-default" align="center" type="submit" name="strumenti" value="Query Strumenti">
 							</div>
                         </div>
 						
@@ -135,13 +146,13 @@ $conn->close();
 						
 						<div class="row">
 							<div class="col-sm-2">
-								<label for="login">Album:</label>
+								<label for="mus">Musicisti:</label>
 							</div>
 							<div class="col-sm-4">
-									<input type="text" class="form-control" name="alb">
+									<input type="number" class="form-control" name="mus">
 							</div>
 							<div class="col-sm-2">
-									<input class="btn btn-default" align="center" type="submit" name="album" value="Query Album">
+									<input class="btn btn-default" align="center" type="submit" name="musicisti" value="Query Musicisti">
 							</div>
                         </div>
 						
@@ -149,13 +160,16 @@ $conn->close();
 						
 						<div class="row">
 							<div class="col-sm-2">
-								<label for="login">Album Artista:</label>
-							</div>
-							<div class="col-sm-4">
-									<input type="text" class="form-control" name="albart">
+								<label for="login">Sesso:</label>
 							</div>
 							<div class="col-sm-2">
-									<input class="btn btn-default" align="center" type="submit" name="albumartista" value="Query Album Artista">
+									<input type="checkbox" class="form-control" name="mas" checked>
+							</div>
+							<div class="col-sm-2">
+									<input type="checkbox" class="form-control" name="fem">
+							</div>
+							<div class="col-sm-2">
+									<input class="btn btn-default" align="center" type="submit" name="sesso" value="Query Sesso">
 							</div>
                         </div>
 						
